@@ -9,36 +9,41 @@
 </head>
 
 <body>
-    <!--<img src="assets/bg.png" alt="" class="bg">-->
-    <div class="container">
-        <div class="bar top-bar">
-            <div class="timer">
-                <img src="assets/timer.svg" alt="timer" class="timer-img">
-                <div class="timer-black">10:00</div>
+    <nav>
+        <div class="nav-text">Ricochet Rumble</div>
+    </nav>
+    <div class="game-screen">
+        <div class="container">
+            <div class="bar top-bar">
+                <div class="btn left--rotate-btn">left</div>
+                <div class="timer">
+                    <img src="assets/timer.svg" alt="timer" class="timer-img">
+                    <div class="timer-black">10:00</div>
+                </div>
+                <div class="btn right--rotate-btn">right</div>
             </div>
-        </div>
-        <div class="board"> </div>
+            <div class="board"> </div>
 
-        <div class="bar bottom-bar">
-            <div class="btn undo--btn">
-                <img src="assets/undo.svg" alt="undo" class="undo" height="30px">
+            <div class="bar bottom-bar">
+                <div class="btn undo--btn">
+                    <img src="assets/undo.svg" alt="undo" class="undo" height="30px">
+                </div>
+                <div class="timer ">
+                    <img src="assets/timer.svg" alt="timer" class="timer-img">
+                    <div class="timer-white">10:00</div>
+                </div>
+                <div class="btn redo--btn"> <img src="assets/redo.svg" alt="redo" class="redo" height="30px"></div>
             </div>
-            <div class="timer ">
-                <img src="assets/timer.svg" alt="timer" class="timer-img">
-                <div class="timer-white">10:00</div>
-            </div>
-            <div class="btn redo-btn"> <img src="assets/redo.svg" alt="redo" class="redo" height="30px"></div>
-        </div>
 
-    </div>
-    <div class="other-controls">
-        <div class="btn play-button"></div>
-        <div class="btn refresh-button"></div>
+        </div>
+        <div class="other-controls">
+            <div class="btn pause--button">Pause</div>
+            <div class="btn reset--button">Reset</div>
+        </div>
     </div>
 
 </body>
-
-<script src="functions.js"></script>
 <script src="script.js"></script>
+<script src="functions.js"></script>
 
 </html>
