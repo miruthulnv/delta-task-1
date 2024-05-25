@@ -18,20 +18,27 @@ body {
   height: 100vh;
   background-color: #463f3a;
   background-size: cover;
-  background-image: url('/assets/bg-3.png');
+  background-image: url("./assets/bg-3.png");
+  font-family: "JetBrains Mono", monospace ;
+  font-weight: bold;
+
+}
+.game-screen{
+  display: flex;
+  flex-direction: column;
 
 }
 .container {
   display: flex;
   flex-direction: column;
   height: 85vh;
-  justify-content: space-between;
+  justify-content: space-around;
 
 }
 .container > .bar{
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
 }
 .coin-container{
@@ -89,6 +96,7 @@ body {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  height: 30px;
 }
 .timer > img{
   height: 15px;
@@ -141,6 +149,8 @@ body {
 
 nav{
   visibility: hidden;
+  width:0px;
+  height:0px;
 }
 .other-controls{
   display: flex;
@@ -150,12 +160,14 @@ nav{
 
 .left--rotate-btn,.right--rotate-btn{
   visibility: hidden;
+  width:62px;
 }
 /* Mobile Phones - Portrait */
 @media only screen and (max-width: 480px) {
   .game-screen{
     display: flex;
     flex-direction: column;
+    height: 80vh;
   }
   .container {
     justify-content: space-evenly;

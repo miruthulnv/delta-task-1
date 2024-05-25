@@ -29,7 +29,7 @@ let gameDB = [
         timeLeft: 600,
     },
 ];
-let currentMove = 1;
+let currentMove = 0;
 let gameHistory = {};
 gameHistory[0] = JSON.parse(JSON.stringify(gameDB));
 

@@ -4,9 +4,7 @@ const resetBtn = document.querySelector(`.reset--button`);
 const pauseBtn = document.querySelector(`.pause--button`);
 const btnUndo = document.querySelector('.undo--btn');
 const btnRedo = document.querySelector('.redo--btn');
-let ball;
-
-
+let ball,timer;
 
 
 function resetLeftAndRightButtons(){
@@ -23,6 +21,7 @@ function stopGame() {
   let oldElement = document.querySelector(".board");
   let newElement = oldElement.cloneNode(true);
   oldElement.parentNode.replaceChild(newElement, oldElement);
+  clearInterval(timer)
 }
 
 function positionCoins(DB) {
@@ -136,6 +135,9 @@ function moveCoin(movableLocations, DB, currentPlayer, coin, allBoxes, timer) {
     document.querySelector(`.index--${loc[0]}-${loc[1]}`)
   );
   const coinClicked = function (e) {
+    currentMove+=1;
+    console.group(`Coin Movement :${currentMove}`)
+    console.log(`Coin ${coin} is moved to ${e.target.getAttribute("m")},${e.target.getAttribute("n")}`);
     resetLeftAndRightButtons();
     const box = e.target;
     const m = box.getAttribute("m");
@@ -150,7 +152,20 @@ function moveCoin(movableLocations, DB, currentPlayer, coin, allBoxes, timer) {
     clearInterval(timer);
     startGame(DB);
     startBullet(DB);
-    gameHistory[currentMove++] = JSON.parse(JSON.stringify(DB));
+
+
+    //If the length of gameHistory is more than current move then delete the extra moves
+    if (currentMove < Object.keys(gameHistory).length-1) {
+      const a = Object.keys(gameHistory).length
+        for (let i = currentMove; i < a; i++) {
+            console.error(`Deleting gameHistory[${i}]`);
+            delete gameHistory[i];
+        }
+    }
+    gameHistory[currentMove] = JSON.parse(JSON.stringify(DB));
+
+    displayGameHistory(gameHistory);
+    console.groupEnd()
     // console.log(gameHistory)
   };
   movableLocations.forEach((box) => box.addEventListener("click", coinClicked));
@@ -180,7 +195,7 @@ function startGame(DB) {
       .filter((el) => el !== undefined),
   ];
   // console.log(`Timer for ${currentPlayer.teamName} is started`);
-  const timer = runTimer(DB, currentPlayer.teamName);
+  timer = runTimer(DB, currentPlayer.teamName);
   //******************************************************************//
 
   nodeListOfBoxes.forEach((box) => {
@@ -232,6 +247,7 @@ function startBullet(DB) {
 }
 
 function moveBullet(x, y, direction, DB, ball) {
+  stopGame();
   ball.style.top = y + "px";
   ball.style.left = x + "px";
   let bullet = new Audio("assets/sounds/bullet.wav");
@@ -246,6 +262,7 @@ function moveBullet(x, y, direction, DB, ball) {
       x >= board.width + board.x
     ) {
       console.log("Bullet went out of box !!! 🔥🔥🔥");
+      startGame(DB)
       cancelAnimationFrame(request);
       ball.remove();
     }
@@ -279,7 +296,6 @@ function moveBullet(x, y, direction, DB, ball) {
     ball.style.left = Number(x) + "px";
   };
   bulletCurrentDirection = direction;
-
   if (direction === "down") {
     request = requestAnimationFrame(moveBulletDown);
     y += 5;
@@ -293,6 +309,7 @@ function moveBullet(x, y, direction, DB, ball) {
     request = requestAnimationFrame(moveBulletLeft);
     x -= 5;
   }
+
 }
 
 function getLocation(box) {
@@ -344,6 +361,7 @@ function checkCollision(coin, teamName, x, y, DB, request, ball) {
       // stop the bullet and disappear the bullet
       cancelAnimationFrame(request);
       ball.remove();
+      startGame(DB);
     }
     if (coin === "ricochet-1"|| coin === "ricochet-2") {
       const loc = DB[team][coin].location;
@@ -398,18 +416,23 @@ function checkCollision(coin, teamName, x, y, DB, request, ball) {
       let x = box.x + (box.width - 8) / 2;
       let y = box.y + (box.height - 8) / 2;
       cancelAnimationFrame(request);
-      if (DB[team][coin].rotation === 2) {
+      const destroy = function () {
+        deleteCoin(DB,coin,teamName);
+        // startGame(DB)
+      }
+      if (DB[team][coin]?.rotation === 2) {
         switch (bulletCurrentDirection) {
           case "down":
             bulletCurrentDirection = "right";
             break;
           case "up":
             //Destroy
-            deleteCoin(DB,coin,teamName);
+            destroy();
+
             break;
           case "right":
             //Destroy
-            deleteCoin(DB,coin,teamName);
+            destroy();
 
             break;
           case "left":
@@ -417,11 +440,11 @@ function checkCollision(coin, teamName, x, y, DB, request, ball) {
             break;
         }
       }
-      if (DB[team][coin].rotation === 3) {
+      if (DB[team][coin]?.rotation === 3) {
         switch (bulletCurrentDirection) {
           case "down":
             //Destroy
-            deleteCoin(DB,coin,teamName);
+            destroy();
 
             break;
           case "up":
@@ -429,7 +452,7 @@ function checkCollision(coin, teamName, x, y, DB, request, ball) {
             break;
           case "right":
             //down
-            deleteCoin(DB,coin,teamName);
+            destroy();
 
             break;
           case "left":
@@ -437,11 +460,11 @@ function checkCollision(coin, teamName, x, y, DB, request, ball) {
             break;
         }
       }
-      if (DB[team][coin].rotation === 4) {
+      if (DB[team][coin]?.rotation === 4) {
         switch (bulletCurrentDirection) {
           case "down":
             //Destroy
-            deleteCoin(DB,coin,teamName);
+            destroy();
 
             break;
           case "up":
@@ -452,19 +475,19 @@ function checkCollision(coin, teamName, x, y, DB, request, ball) {
             break;
           case "left":
             //Destroy
-            deleteCoin(DB,coin,teamName);
+            destroy();
 
             break;
         }
       }
-      if (DB[team][coin].rotation === 1) {
+      if (DB[team][coin]?.rotation === 1) {
         switch (bulletCurrentDirection) {
           case "down":
             bulletCurrentDirection = "left";
             break;
           case "up":
             //Destroy
-            deleteCoin(DB,coin,teamName);
+            destroy();
 
             break;
           case "right":
@@ -472,12 +495,14 @@ function checkCollision(coin, teamName, x, y, DB, request, ball) {
             break;
           case "left":
             //Destroy
-            deleteCoin(DB,coin,teamName);
+            destroy();
 
             break;
         }
       }
-      moveBullet(x, y, bulletCurrentDirection, DB, ball);
+      if (DB[team][coin]) {
+        moveBullet(x, y, bulletCurrentDirection, DB, ball);
+      }
     }
     if (coin === "titan") {
       let gameOver = new Audio("assets/sounds/game-over-2.wav");
@@ -499,11 +524,12 @@ function runTimer(DB, currentTeam) {
   let timerElement = document.querySelector(
     `.timer-${DB[currentTeam].teamName}`
   );
-  console.log(`${currentTeam} , ${DB[currentTeam].timeLeft}`);
+  // console.log(`${currentTeam} , ${DB[currentTeam].timeLeft}`);
   return setInterval(() => {
     DB[currentTeam].timeLeft--;
     // console.log(`${currentTeam} , ${DB[currentTeam].timeLeft}`);
     let seconds = DB[currentTeam].timeLeft % 60;
+    if (seconds<10) seconds = "0"+seconds;
     let minutes = Math.floor(DB[currentTeam].timeLeft / 60);
     timerElement.innerHTML = `${minutes}:${seconds}`;
   }, 1000);
@@ -516,25 +542,29 @@ function rotate(coin, DB, teamName) {
   rightBtn.style.visibility = "visible";
 
   const finishRotate = function(buttonName) {
+    currentMove++;
     stopGame();
     DB[teamNumber].currentTeam = false;
     DB[Math.abs(teamNumber - 1)].currentTeam = true;
     initializeBoard(DB);
     startGame(DB);
     startBullet(DB);
-    gameHistory[currentMove++] = JSON.parse(JSON.stringify(DB));
+    gameHistory[currentMove] = JSON.parse(JSON.stringify(DB));
+    displayGameHistory(gameHistory)
   }
 
   leftBtn.addEventListener('click',function temp(){
     //Rotate the coin to left
-    DB[teamNumber][coin].rotation =  (DB[teamNumber][coin].rotation -1)%4;
+    DB[teamNumber][coin].rotation =  (DB[teamNumber][coin].rotation -1);
+    if (DB[teamNumber][coin].rotation>4)DB[teamNumber][coin].rotation %=4;
     finishRotate(leftBtn);
     resetLeftAndRightButtons();
 
   });
   rightBtn.addEventListener('click',function temp(){
     //Rotate the coin to left
-    DB[teamNumber][coin].rotation =  (DB[teamNumber][coin].rotation +1)%4;
+    DB[teamNumber][coin].rotation =  (DB[teamNumber][coin].rotation +1);
+    if (DB[teamNumber][coin].rotation>4)DB[teamNumber][coin].rotation %=4;
     finishRotate(rightBtn);
     resetLeftAndRightButtons();
   })
@@ -543,34 +573,54 @@ function rotate(coin, DB, teamName) {
 function initializeButtons(){
   //Undo
   btnUndo.addEventListener('click',()=>{
-    console.log('Undo was clicked')
+    // console.log('Undo was clicked')
     if (currentMove>1)
     {
       stopGame();
-      initializeBoard(gameHistory[currentMove-2]);
-      startGame(gameHistory[currentMove-2]);
-      currentMove--;
+      initializeBoard(gameHistory[currentMove-1]);
+      startGame(gameHistory[currentMove-1]);
+      currentMove-=1;
+      console.group(`Undo Move to : ${currentMove}`);
+      displayGameHistory(gameHistory);
+        console.groupEnd();
     }
   });
   //Redo
   btnRedo.addEventListener('click',()=>{
     const len = Object.keys(gameHistory).length;
-    if (currentMove<=len-1)
+    if (currentMove<len-1)
     {
       stopGame();
-      initializeBoard(gameHistory[currentMove]);
-      startGame(gameHistory[currentMove]);
+      initializeBoard(gameHistory[currentMove+1]);
+      startGame(gameHistory[currentMove+1]);
       currentMove++;
+      console.group(`Redo Move to : ${currentMove}`);
+      displayGameHistory(gameHistory);
+      console.groupEnd();
     }
   });
   //Reset
   resetBtn.addEventListener('click',()=>{
-    console.log('Reset button clicked')
+    // console.log('Reset button clicked')
     stopGame();
     gameDB = gameHistory[0];
     gameHistory ={0:gameDB};
     initializeBoard(gameDB);
     startGame(gameDB);
+  })
+  //Pause
+  pauseBtn.addEventListener('click',()=>{
+    console.log('Pause button clicked')
+    if (pauseBtn.innerHTML === "Pause")
+    {
+      stopGame();
+      pauseBtn.innerHTML = "Resume";
+    }
+    else if (pauseBtn.innerHTML === "Resume")
+    {
+      startGame(gameDB);
+      pauseBtn.innerHTML = "Pause";
+    }
   })
 }
 
@@ -584,11 +634,18 @@ function currentLocationOfBullet(x,y){
   // console.log(allBoxes);
 }
 
+function displayGameHistory(gameHistory1) {
+  let gameHistory = JSON.parse(JSON.stringify(gameHistory1));
+  Object.values(gameHistory).forEach((DB,i) => {
+    console.log(`Move ${i}`);
+    DB[0].coins.forEach(coin => DB[0][coin] = DB[0][coin].location + ' ' + DB[0][coin].rotation);
+    DB[1].coins.forEach(coin => DB[1][coin] = DB[1][coin].location + ' ' + DB[1][coin].rotation);
+    console.table(DB);
+  } );
+
+}
 initializeBoard(gameDB);
 
 startGame(gameDB);
 
 initializeButtons();
-
-// let allBoxes = [...document.querySelectorAll('.coin-container')]
-// allBoxes = allBoxes.map(box => getLocation(box));
