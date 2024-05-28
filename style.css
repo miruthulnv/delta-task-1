@@ -19,39 +19,69 @@ body {
   background-color: #463f3a;
   background-size: cover;
   background-image: url("./assets/bg-3.png");
-  font-family: "JetBrains Mono", monospace ;
+  font-family: "JetBrains Mono", monospace;
   font-weight: bold;
-
 }
-.game-screen{
+.game-screen {
+  /* visibility: hidden; */
   display: flex;
   flex-direction: column;
-
 }
+
+.modal {
+  visibility: visible;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: rgba(255, 174, 3, 0.4);
+  border-radius: 10px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(7.2px);
+  -webkit-backdrop-filter: blur(7.2px);
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
 .container {
   display: flex;
   flex-direction: column;
   height: 85vh;
   justify-content: space-around;
-
 }
-.container > .bar{
+.container > .bar {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
 }
-.coin-container{
+.coin-container {
   border-radius: 8px;
 }
-.timer{
+.timer {
   width: 100px;
   text-align: center;
   background-color: #ffae03;
   opacity: 0.9;
   border-radius: 10px;
 }
-.btn{
+.btn {
   background-color: #8a817c;
   border-radius: 50%;
 }
@@ -63,7 +93,6 @@ body {
 }
 
 .box {
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -80,7 +109,7 @@ body {
 .box > .coin-container {
   /*margin: 2px;*/
   padding: 5px;
-  opacity:1;
+  opacity: 1;
 }
 
 .ball {
@@ -91,14 +120,14 @@ body {
   background-color: #61502f;
   transition: transfrom 3s linear;
 }
-.timer{
+.timer {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   height: 30px;
 }
-.timer > img{
+.timer > img {
   height: 15px;
   width: 25px;
 }
@@ -108,12 +137,14 @@ body {
   background-color: #463f3a;
   border-radius: 4px;
   border-width: 0;
-  box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,rgba(45, 35, 66, 0.3) 0 7px 13px -3px, rgba(214, 214, 231, 0.18) 0 -3px 0 inset;
+  box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,
+    rgba(45, 35, 66, 0.3) 0 7px 13px -3px,
+    rgba(214, 214, 231, 0.18) 0 -3px 0 inset;
   box-sizing: border-box;
   color: #f2f2f2;
   cursor: pointer;
   display: inline-flex;
-  font-family: "JetBrains Mono",monospace;
+  font-family: "JetBrains Mono", monospace;
   height: 36px;
   justify-content: center;
   line-height: 1;
@@ -124,21 +155,25 @@ body {
   position: relative;
   text-align: left;
   text-decoration: none;
-  transition: box-shadow .15s,transform .15s;
+  transition: box-shadow 0.15s, transform 0.15s;
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
   white-space: nowrap;
-  will-change: box-shadow,transform;
+  will-change: box-shadow, transform;
   font-size: 18px;
 }
 
 .btn:focus {
-  box-shadow: #D6D6E7 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, rgba(214, 214, 231, 0.67) 0 -3px 0 inset;
+  box-shadow: #d6d6e7 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px,
+    rgba(45, 35, 66, 0.3) 0 7px 13px -3px,
+    rgba(214, 214, 231, 0.67) 0 -3px 0 inset;
 }
 
 .btn:hover {
-  box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, rgba(214, 214, 231, 0.48) 0 -3px 0 inset;
+  box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px,
+    rgba(45, 35, 66, 0.3) 0 7px 13px -3px,
+    rgba(214, 214, 231, 0.48) 0 -3px 0 inset;
   transform: translateY(-2px);
 }
 
@@ -147,24 +182,25 @@ body {
   transform: translateY(2px);
 }
 
-nav{
+nav {
   visibility: hidden;
-  width:0px;
-  height:0px;
+  width: 0px;
+  height: 0px;
 }
-.other-controls{
+.other-controls {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
 }
 
-.left--rotate-btn,.right--rotate-btn{
+.left--rotate-btn,
+.right--rotate-btn {
   visibility: hidden;
-  width:62px;
+  width: 62px;
 }
 /* Mobile Phones - Portrait */
 @media only screen and (max-width: 480px) {
-  .game-screen{
+  .game-screen {
     display: flex;
     flex-direction: column;
     height: 80vh;
@@ -172,20 +208,20 @@ nav{
   .container {
     justify-content: space-evenly;
   }
-  .timer{
+  .timer {
     height: 40px;
     font-size: 20px;
   }
-  .nav-text{
+  .nav-text {
     color: white;
     font-size: 30px;
     font-weight: bold;
-    font-family: "JetBrains Mono", monospace ;
+    font-family: "JetBrains Mono", monospace;
   }
-  nav{
+  nav {
     position: absolute;
-    top:0px;
-    left:0px;
+    top: 0px;
+    left: 0px;
     visibility: visible;
     width: 100%;
     height: 7%;
