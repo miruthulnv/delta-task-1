@@ -29,7 +29,7 @@ body {
 }
 
 .modal {
-  visibility: visible;
+  visibility: hidden;
   position: fixed;
   top: 0;
   left: 0;
@@ -112,13 +112,28 @@ body {
   opacity: 1;
 }
 
-.ball {
+.bullet,
+.bullet--container {
   position: absolute;
   height: 8px;
   width: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* border-radius: 50%; */
+  /* background-color: #61502f; */
+  transition: transfrom 3s linear;
+}
+.ball {
+  position: relative;
+  height: 8px;
+  width: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border-radius: 50%;
   background-color: #61502f;
-  transition: transfrom 3s linear;
+  /* transition: transfrom 3s linear; */
 }
 .timer {
   display: flex;

@@ -37,11 +37,11 @@ let gameDB = [
     titan: { location: `8,4` },
     cannon: { location: `8,8` },
     "ricochet-1": { location: `7,2`, rotation: 2 },
-    "ricochet-2": { location: `6,2`, rotation: 2 },
+    "ricochet-2": { location: `6,4`, rotation: 2 },
     "half-ricochet-1": { location: `7,3`, rotation: 3 },
-    "half-ricochet-2": { location: `6,4`, rotation: 3 },
+    "half-ricochet-2": { location: `6,2`, rotation: 3 },
     tank: { location: `7,7` },
-    timeLeft: 6,
+    timeLeft: 600,
   },
 ];
 
@@ -130,10 +130,11 @@ class GameBoard {
     //Undo
     this.btnUndo.addEventListener("click", () => {
       // console.log('Undo was clicked')
-      if (this.currentMove > 1) {
+      if (this.currentMove > 0) {
         this.stopGame();
         this.refreshBoard(this.gameHistory[this.currentMove - 1]);
         this.startGame(this.gameHistory[this.currentMove - 1]);
+        this.DB = this.gameHistory[this.currentMove - 1];
         this.currentMove -= 1;
         console.group(`Undo Move to : ${this.currentMove}`);
         this.displayGameHistory(this.gameHistory);
@@ -142,11 +143,12 @@ class GameBoard {
     });
     //Redo
     this.btnRedo.addEventListener("click", () => {
-      const len = Object.keys(gameHistory).length;
+      const len = Object.keys(this.gameHistory).length;
       if (this.currentMove < len - 1) {
         this.stopGame();
         this.refreshBoard(this.gameHistory[this.currentMove + 1]);
         this.startGame(this.gameHistory[this.currentMove + 1]);
+        this.DB = this.gameHistory[this.currentMove + 1];
         this.currentMove++;
         console.group(`Redo Move to : ${this.currentMove}`);
         this.displayGameHistory(this.gameHistory);
@@ -159,6 +161,7 @@ class GameBoard {
       this.stopGame();
       this.DB = this.gameHistory[0];
       this.gameHistory = { 0: this.DB };
+      this.currentMove = 0;
       this.refreshBoard(this.DB);
       this.startGame(this.DB);
     });
@@ -184,9 +187,8 @@ class GameBoard {
       const DB2 = JSON.parse(JSON.stringify(DB));
       DB2[0].coins.forEach((coin) => {
         DB2[0][coin] = Object.values(DB2[0][coin]).join(" ");
-        DB2[1][coin] = Object.values(DB2[1][coin]).join("");
+        DB2[1][coin] = Object.values(DB2[1][coin]).join(" ");
       });
-
       console.table(DB2);
     });
   }
@@ -317,6 +319,7 @@ class GameBoard {
   validMoves(loc) {
     // This function checks if the particular location has coins in it and returns the possible locations
     // the coins can move.
+    this.loc = loc;
     const m = Number(loc.at(0));
     const n = Number(loc.at(1));
     let op = [
@@ -377,9 +380,9 @@ class GameBoard {
       this.currentMove += 1;
       console.group(`Coin Movement :${this.currentMove}`);
       console.log(
-        `Coin ${this.coin} is moved to ${e.target.getAttribute(
-          "m"
-        )},${e.target.getAttribute("n")}`
+        `${this.coin} >>> (${this.loc[0]},${
+          this.loc[1]
+        }) to (${e.target.getAttribute("m")},${e.target.getAttribute("n")})`
       );
       this.resetLeftAndRightButtons();
       const box = e.target;
@@ -396,14 +399,13 @@ class GameBoard {
       this.startGame(this.DB);
       // startBullet(this.DB);
       //If the length of gameHistory is more than current move then delete the extra moves
-      // if (this.currentMove < Object.keys(this.gameHistory).length - 1) {
-      //   const a = Object.keys(this.gameHistory).length;
-      //   for (let i = this.currentMove; i < a; i++) {
-      //     console.error(`Deleting gameHistory[${i}]`);
-      //     delete this.gameHistory[i];
-      //   }
-      // }
-      console.log(this.DB);
+      if (this.currentMove < Object.keys(this.gameHistory).length - 1) {
+        const a = Object.keys(this.gameHistory).length;
+        for (let i = this.currentMove; i < a; i++) {
+          console.error(`Deleting gameHistory[${i}]`);
+          delete this.gameHistory[i];
+        }
+      }
       this.gameHistory[this.currentMove] = JSON.parse(JSON.stringify(this.DB));
 
       this.displayGameHistory(this.gameHistory);
@@ -538,6 +540,9 @@ class GameBoard {
     clearInterval(this.timer);
   }
 
+  get locationsOfAllPlayers() {
+    return this.occupiedPositions;
+  }
   endGame(winner) {
     console.log(`Game Over! ${winner} wins!`);
     this.stopGame();

@@ -45,102 +45,17 @@ let gameDB = [
     timeLeft: 600,
   },
 ];
-let;
+let currentMove = 0;
 let gameHistory = {};
 gameHistory[0] = JSON.parse(JSON.stringify(gameDB));
 
+let leftBtn = document.querySelector(`.left--rotate-btn`);
+let rightBtn = document.querySelector(`.right--rotate-btn`);
+const resetBtn = document.querySelector(`.reset--button`);
+const pauseBtn = document.querySelector(`.pause--button`);
+const btnUndo = document.querySelector(".undo--btn");
+const btnRedo = document.querySelector(".redo--btn");
 let ball, timer;
-
-class Bullet {
-  constructor(DB) {
-    this.DB = DB;
-    this.bullet = document.createElement("div");
-    bullet.classList.add("ball");
-    document.body.append(bullet);
-  }
-  startBullet(DB) {
-    const i = DB.indexOf(DB.find((team) => team.currentTeam === false));
-    // Here current player is set to false because it will be switched in the moveCoin function already.
-    const loc = DB[i].cannon.location;
-    const box = document
-      .querySelector(`.index--${loc.at(0)}-${loc.at(2)}`)
-      .getBoundingClientRect();
-
-    let x = box.x + (box.width - 8) / 2;
-    let y = box.y + (box.height - 8) / 2;
-    // console.log(x, y);
-    if (DB[i].teamName === "black") {
-      moveBullet(x, y, "down", DB, ball);
-    } else if (DB[i].teamName === "white") {
-      moveBullet(x, y, "up", DB, ball);
-    }
-  }
-
-  moveBullet(x, y, direction, DB, ball) {
-    stopGame();
-    ball.style.top = y + "px";
-    ball.style.left = x + "px";
-    let bullet = new Audio("assets/sounds/bullet.wav");
-    bullet.play();
-    let request;
-    const checkBallWithinBoundary = function () {
-      const board = document.querySelector(".board").getBoundingClientRect();
-      if (
-        x <= board.x ||
-        y <= board.y ||
-        y >= board.height + board.y ||
-        x >= board.width + board.x
-      ) {
-        console.log("Bullet went out of box !!! 🔥🔥🔥");
-        startGame(DB);
-        cancelAnimationFrame(request);
-        ball.remove();
-      }
-    };
-    const moveBulletDown = function () {
-      request = requestAnimationFrame(moveBulletDown);
-      y += 5;
-      checkBallWithinBoundary();
-      detectCollision(DB, x, y, request, ball);
-      ball.style.top = Number(y) + "px";
-    };
-    const moveBulletUp = function () {
-      request = requestAnimationFrame(moveBulletUp);
-      y -= 5;
-      checkBallWithinBoundary();
-      detectCollision(DB, x, y, request, ball);
-      ball.style.top = Number(y) + "px";
-    };
-    const moveBulletRight = function () {
-      request = requestAnimationFrame(moveBulletRight);
-      x += 5;
-      checkBallWithinBoundary();
-      detectCollision(DB, x, y, request, ball);
-      ball.style.left = Number(x) + "px";
-    };
-    const moveBulletLeft = function () {
-      request = requestAnimationFrame(moveBulletLeft);
-      x -= 5;
-      checkBallWithinBoundary();
-      detectCollision(DB, x, y, request, ball);
-      ball.style.left = Number(x) + "px";
-    };
-    bulletCurrentDirection = direction;
-    if (direction === "down") {
-      request = requestAnimationFrame(moveBulletDown);
-      y += 5;
-    } else if (direction === "up") {
-      request = requestAnimationFrame(moveBulletUp);
-      y -= 5;
-    } else if (direction === "right") {
-      request = requestAnimationFrame(moveBulletRight);
-      x += 5;
-    } else if (direction === "left") {
-      request = requestAnimationFrame(moveBulletLeft);
-      x -= 5;
-    }
-  }
-}
 
 function resetLeftAndRightButtons() {
   let newEl = leftBtn.cloneNode(true);
