@@ -12,13 +12,23 @@ let gameDB = [
     teamName: "black",
     teamColor: "#e8cb81",
     currentTeam: false,
-    titan: { location: `1,4` },
+    titan: { location: `1,4`, hitpoints: 534, damage: 267 },
     cannon: { location: `1,6` },
     "ricochet-1": { location: `4,8`, rotation: 3 },
     "ricochet-2": { location: `3,8`, rotation: 2 },
-    "half-ricochet-1": { location: `2,2`, rotation: 3 },
-    "half-ricochet-2": { location: `3,2`, rotation: 4 },
-    tank: { location: `2,7` },
+    "half-ricochet-1": {
+      location: `2,2`,
+      rotation: 3,
+      hitpoints: 492,
+      damage: 164,
+    },
+    "half-ricochet-2": {
+      location: `3,2`,
+      rotation: 4,
+      hitpoints: 492,
+      damage: 164,
+    },
+    tank: { location: `2,7`, hitpoints: 555, damage: 37 },
     timeLeft: 600,
   },
   {
@@ -34,13 +44,23 @@ let gameDB = [
     teamName: "white",
     teamColor: "#f2f2f2",
     currentTeam: true,
-    titan: { location: `8,4` },
+    titan: { location: `8,4`, hitpoints: 534, damage: 267 },
     cannon: { location: `8,8` },
     "ricochet-1": { location: `7,2`, rotation: 2 },
     "ricochet-2": { location: `6,4`, rotation: 2 },
-    "half-ricochet-1": { location: `7,3`, rotation: 3 },
-    "half-ricochet-2": { location: `6,2`, rotation: 3 },
-    tank: { location: `7,7` },
+    "half-ricochet-1": {
+      location: `7,3`,
+      rotation: 3,
+      hitpoints: 492,
+      damage: 164,
+    },
+    "half-ricochet-2": {
+      location: `6,2`,
+      rotation: 3,
+      hitpoints: 492,
+      damage: 164,
+    },
+    tank: { location: `7,7`, hitpoints: 555, damage: 37 },
     timeLeft: 600,
   },
 ];
@@ -95,6 +115,7 @@ class GameBoard {
   constructor(DB) {
     this.DB = DB;
     this.currentMove = 0;
+    this.randomizeBoard();
     this.initializeBoard(this.DB);
     this.initializeButtons();
     this.startGame(this.DB);
@@ -114,9 +135,60 @@ class GameBoard {
       }
     }
     this.location.insertAdjacentHTML("afterbegin", boxHtml);
+    for (let i = 1; i <= 8; i++) {
+      for (let j = 1; j <= 8; j++) {
+        if ((i + j) % 2 === 0) {
+          document.querySelector(`.index--${i}-${j}`).style.backgroundColor =
+            "#ffae03";
+        }
+      }
+    }
     this.positionCoins(DB);
   }
 
+  generateRandomNumber(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  randomizeBoard() {
+    const loc = [];
+    const team1 = this.DB[0];
+    const team2 = this.DB[1];
+    let i = 0;
+    while (i < team1.coins.length) {
+      let coin = team1.coins[i];
+
+      let x = this.generateRandomNumber(3, 6);
+      let y = this.generateRandomNumber(1, 8);
+      if (!loc.includes(`${x},${y}`)) {
+        if (coin === "cannon" || coin === "titan") {
+          if (loc.includes(`${1},${y}`)) continue;
+          team1[coin].location = `${1},${y}`;
+          loc.push(`${1},${y}`);
+        } else team1[coin].location = `${x},${y}`;
+        console.log(`${coin}:${x},${y}`);
+        loc.push(`${x},${y}`);
+        i += 1;
+      }
+    }
+    i = 0;
+    while (i < team2.coins.length) {
+      let coin = team2.coins[i];
+
+      let x = this.generateRandomNumber(3, 6);
+      let y = this.generateRandomNumber(1, 8);
+      if (!loc.includes(`${x},${y}`)) {
+        if (coin === "cannon" || coin === "titan") {
+          if (loc.includes(`${8},${y}`)) continue;
+          team2[coin].location = `${8},${y}`;
+          loc.push(`${8},${y}`);
+        } else team2[coin].location = `${x},${y}`;
+        console.log(`${coin}:${x},${y}`);
+        loc.push(`${x},${y}`);
+        i += 1;
+      }
+    }
+  }
   /**
    * Initializes the buttons and attaches event listeners to them.
    */
@@ -193,6 +265,7 @@ class GameBoard {
     });
   }
 
+  displayGameHistoryOnScreen() {}
   /**
    * Positions the coins in the board with the locations given the positions data structure.
    *
@@ -216,7 +289,7 @@ class GameBoard {
           el[0].insertAdjacentHTML(
             "afterbegin",
             `<div class = 'coin-container'>
-            <img src="assets/${coinImg}.svg" alt="" class = "${coin}" height="20px"
+            <img src="assets/img/${coinImg}.svg" alt="" class = "${coin}" height="20px"
             style = "transform: rotate(${rotateFactor * 90}deg)"
             ></div>`
           );
@@ -397,6 +470,7 @@ class GameBoard {
       // console.log(`Timer for ${currentPlayer.teamName} is ended`);
       clearInterval(this.timer);
       this.startGame(this.DB);
+      const bullet = new Bullet(this.DB);
       // startBullet(this.DB);
       //If the length of gameHistory is more than current move then delete the extra moves
       if (this.currentMove < Object.keys(this.gameHistory).length - 1) {
@@ -441,6 +515,14 @@ class GameBoard {
     const box = [...document.querySelectorAll(".box")];
     box.forEach((el) => {
       el.style.backgroundColor = "rgba(255, 174, 3, 0.6)";
+      for (let i = 1; i <= 8; i++) {
+        for (let j = 1; j <= 8; j++) {
+          if ((i + j) % 2 === 0) {
+            document.querySelector(`.index--${i}-${j}`).style.backgroundColor =
+              "#ffae03";
+          }
+        }
+      }
     });
   }
 
@@ -475,6 +557,7 @@ class GameBoard {
       this.DB[Math.abs(this.teamNumber - 1)].currentTeam = true;
       this.refreshBoard(this.DB);
       this.startGame(this.DB);
+      const bullet = new Bullet(this.DB);
       // this.startBullet(DB);
       this.gameHistory[this.currentMove] = JSON.parse(JSON.stringify(this.DB));
       this.displayGameHistory(this.gameHistory);
@@ -505,17 +588,19 @@ class GameBoard {
   /**
    * Deletes a coin from the game.
    */
-  deleteCoin() {
-    const team = this.teamNumber;
-    delete this.DB[team][this.coin];
-    const indexToRemove = this.DB[team].coins.indexOf(this.coin);
-    this.DB[team].coins.splice(indexToRemove, 1);
-    // ball.remove();
-    let destroy = new Audio("assets/sounds/half-ricochet-destroy.mp3");
-    destroy.play();
-    this.stopGame();
-    this.refreshBoard(this.DB);
-    this.startGame(this.DB);
+  deleteCoin(team, coin) {
+    this.DB[team][coin].hitpoints -= this.DB[team][coin].damage;
+    if (this.DB[team][coin].hitpoints <= 0) {
+      delete this.DB[team][coin];
+      const indexToRemove = this.DB[team].coins.indexOf(coin);
+      this.DB[team].coins.splice(indexToRemove, 1);
+      // ball.remove();
+      let destroy = new Audio("assets/sounds/half-ricochet-destroy.mp3");
+      destroy.play();
+      this.stopGame();
+      this.refreshBoard(this.DB);
+      this.startGame(this.DB);
+    }
   }
 
   /**
@@ -546,11 +631,15 @@ class GameBoard {
   endGame(winner) {
     console.log(`Game Over! ${winner} wins!`);
     this.stopGame();
+    let gameOver = new Audio("assets/sounds/game-over-2.wav");
+    gameOver.play();
     document.querySelector(".game-screen").style.visibility = "hidden";
     document.querySelector(".modal").style.visibility = "visible";
     document.querySelector(
       ".modal-content"
-    ).innerHTML = `<h3>Game Over! ${winner} wins!</h3>`;
+    ).innerHTML = `<h3>Game Over! ${winner.toUpperCase()} wins!</h3>`;
+    this.leftBtn.remove();
+    this.rightBtn.remove();
   }
 }
 

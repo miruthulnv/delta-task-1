@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ricochet Rumble</title>
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="icon" href="assets/img/favicon.jpg" type="image/x-icon">
 </head>
 
 <body>
@@ -15,37 +16,70 @@
     <div class="modal game-over">
         <div class="modal-content">Hello world</div>
     </div>
-    <div class="game-screen">
-
-        <div class="container">
-            <div class="bar top-bar">
-                <div class="btn left--rotate-btn">left</div>
-                <div class="timer">
-                    <img src="assets/timer.svg" alt="timer" class="timer-img">
-                    <div class="timer-black">10:00</div>
-                </div>
-                <div class="btn right--rotate-btn">right</div>
+    <div class="main-window">
+        <div class="coin-info">
+            <div class="coin-img">
+                <img src="assets/img/ricochet.svg" alt="coin" class="coin">
             </div>
-            <div class="board"> </div>
-
-            <div class="bar bottom-bar">
-                <div class="btn undo--btn">
-                    <img src="assets/undo.svg" alt="undo" class="undo" height="30px">
-                </div>
-                <div class="timer ">
-                    <img src="assets/timer.svg" alt="timer" class="timer-img">
-                    <div class="timer-white">10:00</div>
-                </div>
-                <div class="btn redo--btn"> <img src="assets/redo.svg" alt="redo" class="redo" height="30px"></div>
+            <div class="coin-name">RICOCHET-1</div>
+            <div class="health-bar">
+                <div class="health-bar-remaining"></div>
             </div>
-
+            <div class="info">
+                <div class="team-name">TEAM NAME : BLACK</div>
+                <div class="damage">DAMAGE-TAKEN : 100</div>
+                <div class="hit-points">HITPOINTS : 1000</div>
+            </div>
         </div>
-        <div class="other-controls">
-            <div class="btn pause--button">Pause</div>
-            <div class="btn reset--button">Reset</div>
+        <div class="game-screen">
+
+            <div class="container">
+                <div class="bar top-bar">
+                    <div class="btn left--rotate-btn">left</div>
+                    <div class="timer">
+                        <img src="assets/img/timer.svg" alt="timer" class="timer-img">
+                        <div class="timer-black">10:00</div>
+                    </div>
+                    <div class="btn right--rotate-btn">right</div>
+                </div>
+                <div class="board"> </div>
+
+                <div class="bar bottom-bar">
+                    <div class="btn undo--btn">
+                        <img src="assets/img/undo.svg" alt="undo" class="undo" height="30px">
+                    </div>
+                    <div class="timer ">
+                        <img src="assets/img/timer.svg" alt="timer" class="timer-img">
+                        <div class="timer-white">10:00</div>
+                    </div>
+                    <div class="btn redo--btn"> <img src="assets/img/redo.svg" alt="redo" class="redo" height="30px">
+                    </div>
+                </div>
+
+            </div>
+            <div class="other-controls">
+                <div class="btn pause--button">Pause</div>
+                <div class="btn reset--button">Reset</div>
+            </div>
+        </div>
+        <div class="scrollable-box">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean vel vehicula urna. Nulla facilisi. Morbi
+                ut tincidunt tortor, nec convallis leo. Integer nec risus orci. Proin nec augue ac odio varius
+                fermentum.</p>
+            <p>Quisque in felis orci. Proin varius risus sed neque fermentum, sit amet elementum magna ultricies.
+                Integer non lacus ac ligula pharetra volutpat. Nam at dui sed nulla commodo tincidunt. Nulla auctor
+                velit a elit gravida, a convallis nulla euismod.</p>
+            <p>Donec eget orci euismod, tristique nunc ac, varius mi. Donec vitae purus a velit consequat facilisis.
+                Aliquam erat volutpat. Etiam nec tincidunt mauris. Sed posuere libero eu erat varius, at lobortis magna
+                fermentum.</p>
+            <p>Mauris sit amet dolor purus. Integer sit amet elit in elit euismod interdum. Quisque interdum leo a sem
+                vehicula, a pretium risus cursus. Donec nec sapien in risus accumsan aliquet. Etiam feugiat sapien ut
+                massa vehicula bibendum.</p>
+            <p>Suspendisse potenti. Donec sed dolor eros. Curabitur at orci nec est pulvinar bibendum. Donec non nisl
+                arcu. Sed congue lacus libero, nec posuere purus viverra id. Integer viverra posuere nisi at tincidunt.
+            </p>
         </div>
     </div>
-
 </body>
 <script src="oop.js"></script>
 <script src="bullet.js"></script>

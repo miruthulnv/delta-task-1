@@ -1,14 +1,15 @@
+:root {
+  --brown: #463f3a;
+  --green: #35ff69;
+  --grey: #8a817c;
+  --yellow: #ffae03;
+  --white: #f2f2f2;
+}
+
 * {
   margin: 0px;
   padding: 0px;
 }
-/*
-#463f3a
-#35ff69
-#8a817c
-#ffae03
-#f2f2f2
-*/
 
 body {
   display: flex;
@@ -22,10 +23,11 @@ body {
   font-family: "JetBrains Mono", monospace;
   font-weight: bold;
 }
-.game-screen {
-  /* visibility: hidden; */
-  display: flex;
-  flex-direction: column;
+
+nav {
+  visibility: hidden;
+  width: 0px;
+  height: 0px;
 }
 
 .modal {
@@ -40,7 +42,6 @@ body {
   justify-content: center;
   align-items: center;
 }
-
 .modal-content {
   background: rgba(255, 174, 3, 0.4);
   border-radius: 10px;
@@ -51,12 +52,54 @@ body {
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
-
 .modal-close {
   position: absolute;
   top: 10px;
   right: 10px;
   cursor: pointer;
+}
+
+.game-screen {
+  /* visibility: hidden; */
+  display: flex;
+  flex-direction: column;
+}
+
+.main-window {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.coin-info {
+  border-radius: 10%;
+  height: 300px;
+  width: 200px;
+  background-color: var(--grey);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  backdrop-filter: blur(5px) saturate(5%);
+  -webkit-backdrop-filter: blur(5px) saturate(200%);
+  background-color: var(--brown);
+  border: 1px solid rgba(255, 255, 255, 0.125);
+  color: var(--white);
+}
+.coin-img > img {
+  height: 100px;
+  width: 100px;
+}
+.info {
+  height: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .container {
@@ -89,7 +132,7 @@ body {
   display: grid;
   grid-template-columns: repeat(8, 40px);
   grid-template-rows: repeat(8, 40px);
-  gap: 2.5px;
+  gap: 2px;
 }
 
 .box {
@@ -197,11 +240,15 @@ body {
   transform: translateY(2px);
 }
 
-nav {
-  visibility: hidden;
-  width: 0px;
-  height: 0px;
+.scrollable-box {
+  width: 300px; /* Width of the box */
+  height: 400px; /* Height of the box */
+  overflow: auto; /* Enable scrolling */
+  border: 1px solid #ccc; /* Optional: Border for better visualization */
+  padding: 10px; /* Optional: Padding inside the box */
+  scrollbar-width: none;
 }
+
 .other-controls {
   display: flex;
   flex-direction: row;
@@ -215,6 +262,10 @@ nav {
 }
 /* Mobile Phones - Portrait */
 @media only screen and (max-width: 480px) {
+  body {
+    background-image: none;
+    background-color: #644c3b;
+  }
   .game-screen {
     display: flex;
     flex-direction: column;
