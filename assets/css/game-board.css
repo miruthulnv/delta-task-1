@@ -1,0 +1,90 @@
+.game-screen {
+  /* visibility: hidden; */
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 85vh;
+  justify-content: space-around;
+}
+.container > .bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.coin-container {
+  border-radius: 8px;
+}
+.timer {
+  width: 100px;
+  text-align: center;
+  background-color: #ffae03;
+  opacity: 0.9;
+  border-radius: 10px;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(8, 40px);
+  grid-template-rows: repeat(8, 40px);
+  gap: 2px;
+}
+
+.box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: small;
+  opacity: 0.8;
+  /* From https://css.glass */
+  background: rgba(255, 174, 3, 0.6);
+
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(7.2px);
+  -webkit-backdrop-filter: blur(7.2px);
+}
+
+.box > .coin-container {
+  /*margin: 2px;*/
+  padding: 5px;
+  opacity: 1;
+}
+
+.bullet,
+.bullet--container {
+  position: absolute;
+  height: 8px;
+  width: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* border-radius: 50%; */
+  /* background-color: #61502f; */
+  transition: transfrom 3s linear;
+}
+.ball {
+  position: relative;
+  height: 8px;
+  width: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background-color: #61502f;
+  /* transition: transfrom 3s linear; */
+}
+.timer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+}
+.timer > img {
+  height: 15px;
+  width: 25px;
+}

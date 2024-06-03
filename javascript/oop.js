@@ -231,8 +231,11 @@ class GameBoard {
     this.resetBtn.addEventListener("click", () => {
       // console.log('Reset button clicked')
       this.stopGame();
-      this.DB = this.gameHistory[0];
-      this.gameHistory = { 0: this.DB };
+      this.randomizeBoard();
+      this.DB.forEach((team) => {
+        team.timeLeft = 600;
+      });
+      this.gameHistory = { 0: JSON.parse(JSON.stringify(this.DB)) };
       this.currentMove = 0;
       this.refreshBoard(this.DB);
       this.startGame(this.DB);
@@ -265,7 +268,13 @@ class GameBoard {
     });
   }
 
-  displayGameHistoryOnScreen() {}
+  // displayGameHistoryOnScreen(gameHistory) {
+  //   this.scrollBox = document.querySelector(".scrollable-box");
+  //   Object.values(gameHistory).forEach((DB, i) => {
+  //     const move = i % 2 == 0 ? "even" : "odd";
+
+  //   });
+  // }
   /**
    * Positions the coins in the board with the locations given the positions data structure.
    *

@@ -5,8 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ricochet Rumble</title>
-    <link rel="stylesheet" href="./assets/css/style.css">
     <link rel="icon" href="assets/img/favicon.jpg" type="image/x-icon">
+    <css>
+        <link rel="stylesheet" href="assets/css/style.css">
+        <link rel="stylesheet" href="assets/css/btn.css">
+        <link rel="stylesheet" href="assets/css/game-board.css">
+        <link rel="stylesheet" href="assets/css/game-over.css">
+        <link rel="stylesheet" href="assets/css/game.css">
+        <link rel="stylesheet" href="assets/css/mobile.css">
+    </css>
+
 </head>
 
 <body>
@@ -17,7 +25,7 @@
         <div class="modal-content">Hello world</div>
     </div>
     <div class="main-window">
-        <div class="coin-info">
+        <!-- <div class="coin-info">
             <div class="coin-img">
                 <img src="assets/img/ricochet.svg" alt="coin" class="coin">
             </div>
@@ -30,7 +38,7 @@
                 <div class="damage">DAMAGE-TAKEN : 100</div>
                 <div class="hit-points">HITPOINTS : 1000</div>
             </div>
-        </div>
+        </div> -->
         <div class="game-screen">
 
             <div class="container">
@@ -61,28 +69,37 @@
                 <div class="btn pause--button">Pause</div>
                 <div class="btn reset--button">Reset</div>
             </div>
+            <footer>
+                <div class="footer-text" style="color:white;text-align: center; margin-top: 20px">Game Rules: <a
+                        href="https://github.com/miruthulnv/delta-task-1">
+                        github
+                    </a>
+                </div>
+            </footer>
         </div>
-        <div class="scrollable-box">
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean vel vehicula urna. Nulla facilisi. Morbi
-                ut tincidunt tortor, nec convallis leo. Integer nec risus orci. Proin nec augue ac odio varius
-                fermentum.</p>
-            <p>Quisque in felis orci. Proin varius risus sed neque fermentum, sit amet elementum magna ultricies.
-                Integer non lacus ac ligula pharetra volutpat. Nam at dui sed nulla commodo tincidunt. Nulla auctor
-                velit a elit gravida, a convallis nulla euismod.</p>
-            <p>Donec eget orci euismod, tristique nunc ac, varius mi. Donec vitae purus a velit consequat facilisis.
-                Aliquam erat volutpat. Etiam nec tincidunt mauris. Sed posuere libero eu erat varius, at lobortis magna
-                fermentum.</p>
-            <p>Mauris sit amet dolor purus. Integer sit amet elit in elit euismod interdum. Quisque interdum leo a sem
-                vehicula, a pretium risus cursus. Donec nec sapien in risus accumsan aliquet. Etiam feugiat sapien ut
-                massa vehicula bibendum.</p>
-            <p>Suspendisse potenti. Donec sed dolor eros. Curabitur at orci nec est pulvinar bibendum. Donec non nisl
-                arcu. Sed congue lacus libero, nec posuere purus viverra id. Integer viverra posuere nisi at tincidunt.
-            </p>
-        </div>
+        <!-- <div class="scrollable-box">
+            <div class="scrollable-box__content--odd move-1">
+                <span>1.</span>
+                <img src="assets/img/ricochet.svg" alt="coin" class="coin">
+                <span>
+                    Ricochet-1 moved from (0,0) to (0,1)
+                </span>
+            </div>
+            <div class="scrollable-box__content--even move-2">
+                <span>2.</span>
+                <img src="assets/img/ricochet.svg" alt="coin" class="coin">
+                <span>
+                    Ricochet-1 moved from (0,0) to (0,1)
+                </span>
+            </div>
+        </div> -->
     </div>
+
 </body>
-<script src="oop.js"></script>
-<script src="bullet.js"></script>
-<!-- <script src="functions.js"></script> -->
+
+
+<script src="javascript/oop.js"></script>
+<script src="javascript/bullet.js"></script>
+<!-- <script src="javacript/functions.js"></script> -->
 
 </html>
