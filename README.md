@@ -10,7 +10,7 @@
   - 1 Cannon (must be placed in the last row)
   - 2 Ricochet
   - 2 Semi-Ricochet **( Hit points : **3** )**
-- 1 Tank **( Hit points : **15** )**
+  - 1 Tank **( Hit points : **15** )**
 - The initial configuration of pieces is decided by the computer and is randomized.
 
 ## Piece Movements:
